@@ -8,8 +8,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {useSelector, useDispatch} from 'react-redux';
 
 import data from './data.json';
+import {changeLoading} from './store/action/authActions';
 
 const Item = ({item, onPress, backgroundColor, textColor}) => (
   <TouchableOpacity onPress={onPress} style={[styles.item, backgroundColor]}>
@@ -20,6 +22,10 @@ const Item = ({item, onPress, backgroundColor, textColor}) => (
 const Main = ({navigation, route}) => {
   const [selectedId, setSelectedId] = useState(null);
   const [list, setList] = useState(data);
+
+  const change = useSelector(state => state.change);
+
+  const dispatch = useDispatch();
 
   const backReload = item => {
     const l = list.filter(i => {
@@ -57,9 +63,16 @@ const Main = ({navigation, route}) => {
       <View
         style={{
           width: '100%',
-          justifyContent: 'flex-end',
+          justifyContent: 'space-around',
           alignItems: 'flex-end',
+          flexDirection: 'row',
         }}>
+        <TouchableOpacity
+          onPress={() => {
+            dispatch(changeLoading(!change.loading));
+          }}>
+          <Text>Change Loading</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('AddItem', {

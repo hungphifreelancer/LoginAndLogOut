@@ -1,11 +1,14 @@
 import React from 'react';
 import {Button, StyleSheet, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 
 const DetailItem = ({navigation, route}) => {
   const postDeleteItem = () => {
     route?.params?.backReload(route?.params?.item);
     navigation.goBack();
   };
+
+  const change = useSelector(state => state.change);
   return (
     <View
       style={{flex: 1, justifyContent: 'space-around', alignItems: 'center'}}>
@@ -15,7 +18,7 @@ const DetailItem = ({navigation, route}) => {
         onPress={() => navigation.goBack()}
       />
       {/* backReload */}
-      <Text>{route?.params?.item?.name}</Text>
+      <Text>{change?.loading.toString()}</Text>
       <Button title={'Xoá'} onPress={postDeleteItem} />
     </View>
   );
